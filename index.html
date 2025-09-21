@@ -264,6 +264,15 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            function getFontSize() {
+                if (window.innerWidth < 640) {
+                    return 10;
+                } else if (window.innerWidth < 1024) {
+                    return 12;
+                }
+                return 14;
+            }
+
             const skillsData = {
                 labels: [
                     'Credit Risk Analysis',
@@ -330,7 +339,7 @@
                             },
                             pointLabels: {
                                 font: {
-                                    size: 14
+                                    size: getFontSize(),
                                 },
                                 color: '#333333'
                             },
@@ -352,12 +361,25 @@
                                 }
                             }
                         }
+                    },
+                    layout: {
+                        padding: {
+                            top: 20,
+                            bottom: 20,
+                            left: 20,
+                            right: 20
+                        }
                     }
                 }
             };
             
             const skillsChartCtx = document.getElementById('skillsChart').getContext('2d');
-            new Chart(skillsChartCtx, skillsConfig);
+            const skillsChart = new Chart(skillsChartCtx, skillsConfig);
+
+            window.addEventListener('resize', () => {
+                skillsChart.options.scales.r.pointLabels.font.size = getFontSize();
+                skillsChart.update();
+            });
 
             const menuButton = document.getElementById('menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
