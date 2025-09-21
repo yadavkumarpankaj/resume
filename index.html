@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-g">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pankaj Kumar Yadav - Product Analyst</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,7 +14,7 @@
     <!-- Application Structure Plan: The application is designed as a single-page interactive portfolio. It starts with a hero section for immediate impact, followed by a sticky navigation for easy access to different content blocks. The structure deviates from a linear resume to prioritize engagement: key skills are visualized in a chart for quick assessment, and work experience is presented as a collapsible timeline to reduce initial information overload and encourage user interaction. This 'progressive disclosure' approach makes the content more digestible and allows users (like recruiters) to focus on sections most relevant to them. The flow is designed to guide the user from a high-level summary to detailed specifics in a seamless, scrollable experience. -->
     <!-- Visualization & Content Choices: 
         - Summary/Contact: Goal: Inform. Method: Static text in a prominent hero section for immediate access to key details. Justification: Standard and effective for introductions.
-        - Skills: Goal: Organize & Compare. Viz: Radar Chart. Interaction: Tooltips on hover. Justification: A radar chart provides a more immediate and visually compelling overview of core competencies than a simple list, highlighting areas of expertise. Library: Chart.js.
+        - Skills: Goal: Organize & Compare. Viz: Radar Chart. Interaction: Tooltips on hover, and an interactive click feature that reveals a detailed description of the selected skill. Justification: A radar chart provides a more immediate and visually compelling overview of core competencies than a simple list, and linking it to an interactive description encourages deeper exploration. Library: Chart.js.
         - Experience: Goal: Inform & Organize. Viz: Vertical Timeline. Interaction: Click to expand/collapse details for each role. Justification: An interactive timeline makes a dense career history scannable and user-driven, improving readability and focus. Method: Vanilla JS for toggle functionality.
         - Education/Certs: Goal: Inform. Viz: Card-based grid layout. Interaction: None. Justification: Cards cleanly segment distinct pieces of information in a visually appealing, responsive format. Method: HTML/Tailwind.
     -->
@@ -31,6 +31,36 @@
         .nav-link:hover {
             color: #4A90E2;
         }
+        .timeline-item-content {
+            max-height: 500px;
+            overflow: visible;
+        }
+        .skills-description {
+            opacity: 0;
+            max-height: 0;
+            transition: opacity 0.5s ease, max-height 0.5s ease;
+        }
+        .skills-description.visible {
+            opacity: 1;
+            max-height: 200px;
+        }
+        @media (max-width: 767px) {
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 64px;
+                right: 0;
+                width: 100%;
+                background-color: rgba(255, 255, 255, 0.9);
+                backdrop-filter: blur(8px);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                z-index: 40;
+            }
+            .nav-menu.open {
+                display: flex;
+            }
+        }
     </style>
 </head>
 <body>
@@ -45,7 +75,16 @@
                         <a href="#experience" class="nav-link text-gray-600 font-medium">Experience</a>
                         <a href="#education" class="nav-link text-gray-600 font-medium">Education</a>
                     </div>
+                    <button id="menu-button" class="md:hidden text-gray-600 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
                 </div>
+            </div>
+            <div id="mobile-menu" class="nav-menu md:hidden">
+                <a href="#summary" class="nav-link text-gray-800 font-medium p-4 border-b border-gray-200">Summary</a>
+                <a href="#skills" class="nav-link text-gray-800 font-medium p-4 border-b border-gray-200">Skills</a>
+                <a href="#experience" class="nav-link text-gray-800 font-medium p-4 border-b border-gray-200">Experience</a>
+                <a href="#education" class="nav-link text-gray-800 font-medium p-4">Education</a>
             </div>
         </nav>
     </header>
@@ -58,17 +97,17 @@
                     <img src="https://media.licdn.com/dms/image/v2/D4E03AQHUuVtZyCQR0g/profile-displayphoto-shrink_800_800/B4EZU5UrYPH0Ac-/0/1740423478145?e=1761177600&v=beta&t=mBK61sMhnmeF2D0OJ7Vah_vEYpdbc1c0ewL0RDXXU24" alt="Pankaj Kumar Yadav" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-6 object-cover border-4 border-white shadow-lg">
                     <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Pankaj Kumar Yadav</h1>
                     <p class="mt-2 text-xl md:text-2xl text-gray-600">Product Analyst | FinTech</p>
-                    <div class="mt-6 flex justify-center items-center space-x-6 text-gray-500">
+                    <div class="mt-6 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6 text-gray-500">
                         <a href="mailto:dev.pankajkumaryadav@gmail.com" class="hover:text-gray-900 transition flex items-center space-x-2">
                             <i class="fas fa-envelope"></i>
                             <span>dev.pankajkumaryadav@gmail.com</span>
                         </a>
-                        <span class="text-gray-400">|</span>
+                        <span class="hidden sm:block text-gray-400">|</span>
                         <a href="https://www.linkedin.com/in/pankaj-kr-yadav/" target="_blank" class="hover:text-gray-900 transition flex items-center space-x-2">
                             <i class="fab fa-linkedin"></i>
                             <span>LinkedIn</span>
                         </a>
-                        <span class="text-gray-400">|</span>
+                        <span class="hidden sm:block text-gray-400">|</span>
                         <a href="https://github.com/yadavkumarpankaj" target="_blank" class="hover:text-gray-900 transition flex items-center space-x-2">
                             <i class="fab fa-github"></i>
                             <span>GitHub</span>
@@ -85,17 +124,21 @@
 
             <section id="skills" class="py-16">
                 <h2 class="text-3xl font-bold text-center text-gray-800">Core Competencies</h2>
-                <p class="mt-4 text-center text-gray-600 max-w-2xl mx-auto">This radar chart provides a unique profile of my key skills. The shape of the chart highlights my areas of strength, offering a quick and comprehensive overview of my capabilities in both data and domain expertise.</p>
+                <p class="mt-4 text-center text-gray-600 max-w-2xl mx-auto">This radar chart provides a unique profile of my key skills. Click on a skill to learn more about my experience in that area.</p>
                 <div class="mt-12">
-                    <div class="chart-container relative h-96 w-full max-w-3xl mx-auto">
+                    <div class="chart-container relative h-[40vh] md:h-96 w-full max-w-3xl mx-auto">
                         <canvas id="skillsChart"></canvas>
                     </div>
+                </div>
+                <div id="skills-description-container" class="mt-8 max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-md skills-description">
+                    <h3 id="skills-description-title" class="text-xl font-bold text-gray-800 mb-2"></h3>
+                    <p id="skills-description-text" class="text-gray-700 leading-relaxed"></p>
                 </div>
             </section>
             
             <section id="experience" class="py-16">
                 <h2 class="text-3xl font-bold text-center text-gray-800">Professional Experience</h2>
-                <p class="mt-4 text-center text-gray-600 max-w-2xl mx-auto">My career has been focused on driving value in the FinTech space through data-driven risk analysis and product strategy. Each role below details the key responsibilities and accomplishments from my time at each position.</p>
+                <p class="mt-4 text-center text-gray-600 max-w-2xl mx-auto">My career has been focused on driving value in the FinTech space through data-driven risk analysis and product strategy.</p>
                 <div class="mt-12 max-w-3xl mx-auto">
                     <div class="relative border-l-2 border-gray-200">
                         
@@ -107,7 +150,7 @@
                                     <p class="text-md text-gray-600">FinBox</p>
                                     <time class="text-sm font-medium text-gray-500">Jul 2024 – Present</time>
                                 </div>
-                                <div>
+                                <div class="timeline-item-content open">
                                     <ul class="mt-4 list-disc list-inside space-y-2 text-gray-700">
                                         <li>Designed and implemented credit risk policies improving approval rates and lowering defaults.</li>
                                         <li>Built ML-based risk models (PD, LGD, EAD, scorecards) for fraud detection and portfolio monitoring.</li>
@@ -127,7 +170,7 @@
                                     <p class="text-md text-gray-600">FinBox</p>
                                     <time class="text-sm font-medium text-gray-500">Jul 2023 – Jun 2024</time>
                                 </div>
-                                <div>
+                                <div class="timeline-item-content open">
                                     <ul class="mt-4 list-disc list-inside space-y-2 text-gray-700">
                                         <li>Automated data validation scripts improving accuracy of financial datasets.</li>
                                         <li>Executed ETL processes supporting credit risk modeling and reporting.</li>
@@ -145,7 +188,7 @@
                                     <p class="text-md text-gray-600">FinBox</p>
                                     <time class="text-sm font-medium text-gray-500">Apr 2023 – Jun 2023</time>
                                 </div>
-                                <div>
+                                <div class="timeline-item-content open">
                                     <ul class="mt-4 list-disc list-inside space-y-2 text-gray-700">
                                         <li>Performed data sanity checks and maintained data integrity for risk datasets.</li>
                                     </ul>
@@ -161,7 +204,7 @@
                                     <p class="text-md text-gray-600">AlmaBetter</p>
                                     <time class="text-sm font-medium text-gray-500">Dec 2022 – Jul 2023</time>
                                 </div>
-                                <div>
+                                <div class="timeline-item-content open">
                                     <ul class="mt-4 list-disc list-inside space-y-2 text-gray-700">
                                         <li>Mentored learners in statistics, data analysis, and ML algorithms.</li>
                                     </ul>
@@ -209,11 +252,11 @@
     <footer class="bg-gray-800 text-white mt-16 py-8">
         <div class="max-w-6xl mx-auto px-4 text-center">
             <p>&copy; 2025 Pankaj Kumar Yadav. All rights reserved.</p>
-            <div class="mt-4 flex justify-center items-center space-x-6 text-gray-400">
+            <div class="mt-4 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6 text-gray-400">
                 <span>dev.pankajkumaryadav@gmail.com</span>
-                <span>|</span>
+                <span class="hidden sm:block">|</span>
                 <a href="https://www.linkedin.com/in/pankaj-kr-yadav/" target="_blank" class="hover:text-white transition">LinkedIn</a>
-                <span>|</span>
+                <span class="hidden sm:block">|</span>
                 <a href="https://github.com/yadavkumarpankaj" target="_blank" class="hover:text-white transition">GitHub</a>
             </div>
         </div>
@@ -245,12 +288,38 @@
                 }]
             };
 
+            const skillsDescriptions = {
+                'Credit Risk Analysis': 'I analyze and assess the creditworthiness of borrowers, developing strategies to mitigate default risks and optimize lending portfolios.',
+                'Risk Modeling & Predictive Analytics': 'I build and implement predictive models, including PD, LGD, and EAD scorecards, to forecast risk and support data-driven decision-making in financial services.',
+                'Data Visualization & BI': 'I transform complex data into clear, actionable insights using dashboards and reporting tools, enabling product teams and stakeholders to understand performance at a glance.',
+                'Machine Learning & AI': 'I apply advanced machine learning algorithms to solve complex problems, from fraud detection and portfolio monitoring to developing intelligent risk models.',
+                'Regulatory Compliance': 'I ensure that all risk and data-related processes adhere to stringent regulatory standards such as Basel III/IV and IFRS 9, creating comprehensive compliance reports.',
+                'SQL & Python & Excel': 'As a core part of my daily workflow, I use these tools for data manipulation, cleaning, and analysis, as well as for automating tasks and creating advanced reports.',
+                'Strategic Planning': 'I leverage data-driven insights to inform product strategy, market segmentation, and business development, helping to guide overall company direction and achieve key objectives.',
+                'Data Integrity & ETL': 'I am responsible for the entire data lifecycle, from building automated data validation scripts and ETL processes to ensuring the accuracy and integrity of all financial datasets used for modeling and reporting.'
+            };
+
             const skillsConfig = {
                 type: 'radar',
                 data: skillsData,
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    onClick: (e, elements) => {
+                        if (elements.length > 0) {
+                            const clickedIndex = elements[0].index;
+                            const skillName = skillsData.labels[clickedIndex];
+                            const descriptionText = skillsDescriptions[skillName];
+                            
+                            const descContainer = document.getElementById('skills-description-container');
+                            const descTitle = document.getElementById('skills-description-title');
+                            const descText = document.getElementById('skills-description-text');
+
+                            descTitle.textContent = skillName;
+                            descText.textContent = descriptionText;
+                            descContainer.classList.add('visible');
+                        }
+                    },
                     scales: {
                         r: {
                             angleLines: {
@@ -289,6 +358,18 @@
             
             const skillsChartCtx = document.getElementById('skillsChart').getContext('2d');
             new Chart(skillsChartCtx, skillsConfig);
+
+            const menuButton = document.getElementById('menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('open');
+            });
+
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('open');
+                });
+            });
         });
     </script>
 </body>
