@@ -31,14 +31,6 @@
         .nav-link:hover {
             color: #4A90E2;
         }
-        .timeline-item-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
-        }
-        .timeline-item-content.open {
-            max-height: 500px;
-        }
     </style>
 </head>
 <body>
@@ -103,19 +95,19 @@
             
             <section id="experience" class="py-16">
                 <h2 class="text-3xl font-bold text-center text-gray-800">Professional Experience</h2>
-                <p class="mt-4 text-center text-gray-600 max-w-2xl mx-auto">My career has been focused on driving value in the FinTech space through data-driven risk analysis and product strategy. Click on each role below to expand and view the key responsibilities and accomplishments from my time at each position.</p>
+                <p class="mt-4 text-center text-gray-600 max-w-2xl mx-auto">My career has been focused on driving value in the FinTech space through data-driven risk analysis and product strategy. Each role below details the key responsibilities and accomplishments from my time at each position.</p>
                 <div class="mt-12 max-w-3xl mx-auto">
                     <div class="relative border-l-2 border-gray-200">
                         
                         <div class="timeline-item mb-12">
                             <div class="absolute w-4 h-4 bg-blue-500 rounded-full -left-2 mt-1.5"></div>
                             <div class="ml-8">
-                                <div class="timeline-header cursor-pointer">
+                                <div class="timeline-header">
                                     <h3 class="text-xl font-bold text-gray-900">Product Analyst</h3>
                                     <p class="text-md text-gray-600">FinBox</p>
                                     <time class="text-sm font-medium text-gray-500">Jul 2024 – Present</time>
                                 </div>
-                                <div class="timeline-item-content">
+                                <div>
                                     <ul class="mt-4 list-disc list-inside space-y-2 text-gray-700">
                                         <li>Designed and implemented credit risk policies improving approval rates and lowering defaults.</li>
                                         <li>Built ML-based risk models (PD, LGD, EAD, scorecards) for fraud detection and portfolio monitoring.</li>
@@ -130,12 +122,12 @@
                         <div class="timeline-item mb-12">
                             <div class="absolute w-4 h-4 bg-blue-500 rounded-full -left-2 mt-1.5"></div>
                             <div class="ml-8">
-                                <div class="timeline-header cursor-pointer">
+                                <div class="timeline-header">
                                     <h3 class="text-xl font-bold text-gray-900">Data Analyst</h3>
                                     <p class="text-md text-gray-600">FinBox</p>
                                     <time class="text-sm font-medium text-gray-500">Jul 2023 – Jun 2024</time>
                                 </div>
-                                <div class="timeline-item-content">
+                                <div>
                                     <ul class="mt-4 list-disc list-inside space-y-2 text-gray-700">
                                         <li>Automated data validation scripts improving accuracy of financial datasets.</li>
                                         <li>Executed ETL processes supporting credit risk modeling and reporting.</li>
@@ -148,12 +140,12 @@
                         <div class="timeline-item mb-12">
                             <div class="absolute w-4 h-4 bg-blue-500 rounded-full -left-2 mt-1.5"></div>
                             <div class="ml-8">
-                                <div class="timeline-header cursor-pointer">
+                                <div class="timeline-header">
                                     <h3 class="text-xl font-bold text-gray-900">Data Quality Intern</h3>
                                     <p class="text-md text-gray-600">FinBox</p>
                                     <time class="text-sm font-medium text-gray-500">Apr 2023 – Jun 2023</time>
                                 </div>
-                                <div class="timeline-item-content">
+                                <div>
                                     <ul class="mt-4 list-disc list-inside space-y-2 text-gray-700">
                                         <li>Performed data sanity checks and maintained data integrity for risk datasets.</li>
                                     </ul>
@@ -164,12 +156,12 @@
                         <div class="timeline-item">
                             <div class="absolute w-4 h-4 bg-blue-500 rounded-full -left-2 mt-1.5"></div>
                             <div class="ml-8">
-                                <div class="timeline-header cursor-pointer">
+                                <div class="timeline-header">
                                     <h3 class="text-xl font-bold text-gray-900">SME (Data Science Program)</h3>
                                     <p class="text-md text-gray-600">AlmaBetter</p>
                                     <time class="text-sm font-medium text-gray-500">Dec 2022 – Jul 2023</time>
                                 </div>
-                                <div class="timeline-item-content">
+                                <div>
                                     <ul class="mt-4 list-disc list-inside space-y-2 text-gray-700">
                                         <li>Mentored learners in statistics, data analysis, and ML algorithms.</li>
                                     </ul>
@@ -297,14 +289,6 @@
             
             const skillsChartCtx = document.getElementById('skillsChart').getContext('2d');
             new Chart(skillsChartCtx, skillsConfig);
-
-            const timelineHeaders = document.querySelectorAll('.timeline-header');
-            timelineHeaders.forEach(header => {
-                header.addEventListener('click', () => {
-                    const content = header.nextElementSibling;
-                    content.classList.toggle('open');
-                });
-            });
         });
     </script>
 </body>
